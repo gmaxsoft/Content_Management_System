@@ -53,7 +53,7 @@ jobs:
         fi
 
     - name: Security scan with Trivy
-      uses: aquasecurity/trivy-action@master
+      uses: aquasecurity/trivy-action@0.30.0
       with:
         scan-type: 'fs'
         scan-ref: '.'
@@ -62,7 +62,8 @@ jobs:
       continue-on-error: true
 
     - name: Upload Trivy scan results to GitHub Security tab
-      uses: github/codeql-action/upload-sarif@v2
+      uses: github/codeql-action/upload-sarif@v3
       if: always()
       with:
         sarif_file: 'trivy-results.sarif'
+        ignore-file: 'trivy-ignore.txt'
