@@ -22,7 +22,6 @@ class StaticBlocksController extends DefaultController
         parent::__construct(...$parentArgs);
     }
 
-{
     /**
      * Show the index page
      *
