@@ -1,8 +1,67 @@
+# Dependencies
 /vendor/
 /vendor
-vendor
+vendor/
+node_modules/
+
+# Environment files
 .env
 /.env
-/.env.local
-resources/logs
-node_modules
+.env.local
+.env.*.local
+
+# Logs
+resources/logs/
+*.log
+logs/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Cache and temporary files
+/cache/
+/tmp/
+/temp/
+*.tmp
+*.temp
+
+# Upload directories (should contain gitkeep files)
+/public/upload/
+/public/images/
+!/public/upload/.gitkeep
+!/public/images/.gitkeep
+
+# Build artifacts
+/dist/
+/build/
+
+# Testing
+/coverage/
+/reports/
+phpunit.xml.bak
+
+# Documentation generated files
+/docs/api/
+/docs/build/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Database files (local development only)
+/*.sql
+!/goliath.sql
