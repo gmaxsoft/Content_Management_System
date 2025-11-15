@@ -1,0 +1,156 @@
+{% extends "header_main.html" %}
+{% block title %}Slajdery{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/slider">Slajdery</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-slider-one" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-slider-one" aria-expanded="true"><span>Lista</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-slider-two" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-slider-two" aria-expanded="false"><span>Dodaj</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-slider-three" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-slider-three" aria-expanded="false"><span>Ustawienia</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-slider-one" role="tabpanel" aria-expanded="true">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <div id="toolbar">
+                                    <button id="remove" class="btn btn-danger" disabled>
+                                        <i class="fa fa-trash"></i> Usuń
+                                    </button>
+                                </div>
+                                <table id="datatable" class="table-striped" data-page-list="[10, 25, 50, 100, all]" data-show-refresh="true" data-sticky-header="true" data-filter-control="true" data-show-search-clear-button="true" data-show-columns="true" data-show-columns-toggle-all="true" data-sticky-header="true" data-toolbar="#toolbar" data-id-field="slider_id" data-editable-url="/api/slider/inline/" data-editable-params="{'csrf_token': '{{ csrf_token }}'}">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th data-field="action">Akcja</th>
+                                            <th data-field="slider_id" data-visible="true">Id</th>
+                                            <th data-field="slider_title" data-filter-control="input" data-editable="true" data-editable-emptytext="Brak danych">Tytuł/Nazwa</th>
+                                            <th data-field="slider_description" data-filter-control="input">Treść</th>
+                                            <th data-field="slider_identifier" data-filter-control="input" data-editable="true" data-editable-emptytext="Brak danych">Identyfikator</th>
+                                            <th data-field="slider_display" data-filter-control="input" data-editable="true" data-editable-type="select" data-editable-source="[{'value': 'Tak', 'text': 'Tak'}, {'value': 'Nie', 'text': 'Nie'}]">Widoczność</th>
+                                            <th data-field="slider_lang" data-filter-control="select">Język</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="tab-slider-two" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="/api/slider/add">
+                                    <div class="row">
+                                        <div class="title-box">Slider - Dodaj</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="slider_identifier">Identyfikator</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="slider_identifier" name="slider_identifier" placeholder="Wpisz identyfikator" required autofocus tabindex="1" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_title">Tytuł</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="slider_title" name="slider_title" placeholder="Wpisz tytuł" tabindex="2" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_url">Url Video (Opcja - zostaw puste jeśli nie masz linku do video)</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="slider_url" name="slider_url" placeholder="Wpisz url" tabindex="3" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_display">Widoczność</label>
+                                                <select class="form-control" autocomplete="off" id="slider_display" name="slider_display" tabindex="4" required>
+                                                    <option value="">Wybierz</option>
+                                                    <option value="Nie">Nie</option>
+                                                    <option value="Tak" selected>Tak</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_lang">Język</label>
+                                                <select class="form-control" autocomplete="off" id="slider_lang" name="slider_lang" tabindex="5">
+                                                    {% for lang in available_langs %}
+                                                    <option value="{{ lang.lang_id }}" {{ lang.lang_id==current_lang ? 'selected="selected"' : '' }}>
+                                                        {{ lang.lang_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="slider_description">Treść</label>
+                                                <textarea class="form-control" autocomplete="off" id="slider_description" name="slider_description" rows="10" cols="150" tabindex="6"></textarea>
+                                            </div>
+                                        </div>
+                                        <p>&nbsp;</p>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tab-slider-three" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form id="configform" method="POST" action="">
+                                    <div class="row">
+                                        <div class="title-box">Slider - Ustawienia</div>
+                                        <div class="form-group">
+                                            <label for="slider_width">Szerokość (w pikselach)</label>
+                                            <input type="number" name="slider_width" id="slider_width" class="form-control" placeholder="Np. 1920" min="1" required value="{{ slider_width }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="slider_height">Wysokość (w pikselach)</label>
+                                            <input type="number" name="slider_height" id="slider_height" class="form-control" placeholder="Np. 1080" min="1" required value="{{ slider_height }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="slider_quality">Ustaw jakość kompresji (optymalizacja)</label>
+                                            <input type="number" name="slider_quality" id="slider_quality" class="form-control" placeholder="Wartość od 1 do 100" min="1" max="100" required value="{{ slider_quality }}">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="slider_format">Konwertuj na format</label>
+                                            <select name="slider_format" id="slider_format" class="form-control">
+                                                <option value="original" {{ slider_format=='original' ? 'selected' : '' }}>Pozostaw oryginalny format</option>
+                                                <option value="webp" {{ slider_format=='webp' ? 'selected' : '' }}>WebP (zalecany, mniejszy rozmiar)</option>
+                                                <option value="jpg" {{ slider_format=='jpg' ? 'selected' : '' }}>JPEG/JPG</option>
+                                                <option value="png" {{ slider_format=='png' ? 'selected' : '' }}>PNG</option>
+                                            </select>
+                                        </div>
+                                        <p>&nbsp;</p>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <input type="hidden" name="slider_id" value="1" />
+                                            <button type="submit" class="btn btn-primary">Zapisz Konfigurację</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

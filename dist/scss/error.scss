@@ -1,0 +1,107 @@
+$color_1: #ececec;
+$color_2: #000;
+$color_3: #fff;
+$color_4: #189cf0;
+$font-family_1: 'Maven Pro', sans-serif;
+$background-color_1: #fff;
+$border-color_1: #189cf0;
+
+* {
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+body {
+	padding: 0;
+	margin: 0;
+}
+#notfound {
+	position: relative;
+	height: 100vh;
+	.notfound {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		-webkit-transform: translate(-50%, -50%);
+		-ms-transform: translate(-50%, -50%);
+		transform: translate(-50%, -50%);
+	}
+}
+.notfound {
+	max-width: 920px;
+	width: 100%;
+	line-height: 1.4;
+	text-align: center;
+	padding-left: 15px;
+	padding-right: 15px;
+	.notfound-404 {
+		position: absolute;
+		height: 100px;
+		top: 0;
+		left: 50%;
+		-webkit-transform: translateX(-50%);
+		-ms-transform: translateX(-50%);
+		transform: translateX(-50%);
+		z-index: -1;
+		h1 {
+			font-family: $font-family_1;
+			color: $color_1;
+			font-weight: 900;
+			font-size: 276px;
+			margin: 0px;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			-webkit-transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+		}
+	}
+	h2 {
+		font-family: $font-family_1;
+		font-size: 46px;
+		color: $color_2;
+		font-weight: 900;
+		text-transform: uppercase;
+		margin: 0px;
+	}
+	p {
+		font-family: $font-family_1;
+		font-size: 16px;
+		color: $color_2;
+		font-weight: 400;
+		text-transform: uppercase;
+		margin-top: 15px;
+	}
+	a {
+		font-family: $font-family_1;
+		font-size: 14px;
+		text-decoration: none;
+		text-transform: uppercase;
+		background: #189cf0;
+		display: inline-block;
+		padding: 16px 38px;
+		border: 2px solid transparent;
+		border-radius: 40px;
+		color: $color_3;
+		font-weight: 400;
+		-webkit-transition: 0.2s all;
+		transition: 0.2s all;
+		&:hover {
+			background-color: $background-color_1;
+			border-color: $border-color_1;
+			color: $color_4;
+		}
+	}
+}
+@media only screen and (max-width: 480px) {
+	.notfound {
+		.notfound-404 {
+			h1 {
+				font-size: 162px;
+			}
+		}
+		h2 {
+			font-size: 26px;
+		}
+	}
+}

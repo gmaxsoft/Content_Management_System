@@ -1,0 +1,8 @@
+/vendor/
+/vendor
+vendor
+.env
+/.env
+/.env.local
+resources/logs
+node_modules

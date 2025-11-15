@@ -1,0 +1,134 @@
+{% extends "header_main.html" %}
+{% block title %}Użytkownicy{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/users">Ustawienia</a></li>
+                        <li class="breadcrumb-item active"><a href="/users">Użytkownicy</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-users-one" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-users-one" aria-expanded="true"><span>Lista</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-users-two" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-users-two" aria-expanded="false"><span>Dodaj</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-users-one" role="tabpanel" aria-expanded="true">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <div class="row">
+                                    <div id="toolbar">
+                                        <button id="remove" class="btn btn-danger" disabled>
+                                            <i class="fa fa-trash"></i> Usuń
+                                        </button>
+                                    </div>
+                                    <table id="datatable"  data-page-list="[10, 25, 50, 100, all]" data-show-refresh="true" data-sticky-header="true" data-filter-control="true" data-show-search-clear-button="true" data-cookie="true" data-cookie-id-table="tableusers" data-show-columns="true" data-show-columns-toggle-all="true" data-sticky-header="true" data-filter-control="true" data-toolbar="#toolbar" data-id-field="user_id" data-editable-url="/api/users/inline/" data-editable-params="{'csrf_token': '{{ csrf_token }}'}">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="state" data-checkbox="true"></th>
+                                                <th data-field="action">Akcja</th>
+                                                <th data-field="user_id" data-visible="false">Id</th>
+                                                <th data-field="user_user_first_name" data-filter-control="input">Imię</th>
+                                                <th data-field="user_last_name" data-filter-control="input">Nazwisko</th>
+                                                <th data-field="user_email" data-filter-control="input">E-mail</th>
+                                                <th data-field="user_phone" data-filter-control="input">Telefon</th>
+                                                <th data-field="user_stand_name" data-filter-control="input" data-editable="true" data-editable-emptytext="Brak danych">Stanowisko</th>
+                                                <th data-field="user_symbol" data-filter-control="input" data-editable="true" data-editable-emptytext="Brak danych">Symbol</th>
+                                                <th data-field="user_level" data-filter-control="select">Uprawnienia</th>
+                                                <th data-field="user_active" data-filter-control="input" data-editable="true" data-editable-type="select" data-editable-source="[{'value': 1, 'text': 'Tak'}, {'value': 0, 'text': 'Nie'}]">Aktywny</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-users-two" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="/api/users/add">
+                                    <div class="row">
+                                        <div class="title-box">Dane użytkownika</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="user_first_name">Imię</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_first_name" name="user_first_name" placeholder="Wpisz imię użytkownika" required autofocus tabindex="1" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_stand_name">Stanowisko</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_stand_name" name="user_stand_name" placeholder="Wpisz stanowisko" tabindex="3" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_phone">Telefon</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_phone" name="user_phone" placeholder="Wpisz telefon" tabindex="5" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="user_last_name">Nazwisko</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_last_name" name="user_last_name" placeholder="Wpisz nazwisko użytkownika" required tabindex="2" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_symbol">Symbol / Skrót</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_symbol" name="user_symbol" placeholder="Wpisz dwu literowy symbol" maxlength="2" required tabindex="4" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_description">Opis</label>
+                                                <textarea type="text" autocomplete="off" class="form-control" id="user_description" name="user_description" placeholder="Uwagi" tabindex="6" cols="5" rows="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <label for="user_level">Uprawnienia</label><br />
+                                            <div class="radio radio-success">
+                                                {% for access in accessLevels %}
+                                                <input type="radio" id="user_level_{{ access.access_id }}" name="user_level" value="{{ access.access_id }}" required tabindex="7" />
+                                                <label for="user_level_{{ access.access_id }}">{{ access.access_name }}</label>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="title-box">Dane logowania</div>
+                                        <div class="form-group">
+                                            <label for="user_email">Adres e-mial/login</label>
+                                            <input type="text" class="form-control" id="user_email" name="user_email" placeholder="Wpisz e-mail" autocomplete="off" required tabindex="8" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_level">Hasło</label>
+                                            <input type="password" id="user_password" name="user_password" class="form-control" placeholder="Nowe Hasło" tabindex="9" autocomplete="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_level">Powtórz hasło</label>
+                                            <input type="password" id="user_confirm_password" name="user_confirm_password" class="form-control" placeholder="Powtórz Hasło" tabindex="10" autocomplete="" />
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <button type="submit" class="btn btn-primary">Dodaj użytkownika</button> <button type="reset" class="btn btn-danger">Wyczyść</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

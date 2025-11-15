@@ -1,0 +1,73 @@
+{% extends "header_main.html" %}
+{% block title %}Cookies{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/cookies">Cookies</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-cookies" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-cookies" aria-expanded="true"><span>Treść Cookies</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-cookies" role="tabpanel" aria-expanded="true">
+                                <div class="message">
+                                    <div class="alert alert-info animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="">
+                                    <div class="title-box">Ustawienia baneru Cookies</div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="cookies_active">Status</label>
+                                                <select class="form-control" autocomplete="off" id="cookies_active" name="cookies_active" tabindex="1" required>
+                                                    <option value="0" {{ cookies_active==0 ? 'selected="selected"' : '' }}>Wyłączony</option>
+                                                    <option value="1" {{ cookies_active==1 ? 'selected="selected"' : '' }}>Włączony</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="cookies_mode">Tryb</label>
+                                                <select class="form-control" autocomplete="off" id="cookies_mode" name="cookies_mode" tabindex="2" required>
+                                                    <option value="" {{ cookies_mode=='' ? 'selected="selected"' : '' }}>Wybierz</option>
+                                                    <option value="1" {{ cookies_mode==1 ? 'selected="selected"' : '' }}>Pokazuj zawsze</option>
+                                                    <option value="2" {{ cookies_mode==2 ? 'selected="selected"' : '' }}>Pokazuj raz</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="cookies_txt">Treść komunikatu</label>
+                                                <textarea class="form-control" autocomplete="off" id="cookies_txt" name="cookies_txt" rows="10" cols="150" tabindex="3">{{ cookies_txt | e }}</textarea> {# Filtr 'e' dla escape/htmlspecialchars #}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <input type="hidden" name="cookies_id" id="cookies_id" value="{{ cookies_id }}">
+                                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

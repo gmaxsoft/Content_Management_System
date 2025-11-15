@@ -1,0 +1,68 @@
+{% extends "header_main.html" %}
+{% block title %}Edycja Uprawnienia{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/access">Uprawnienia</a></li>
+                        <li class="breadcrumb-item active"><a href="/access/edit/{{ access.access_id }}">Dane uprawnienia</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-access-edit" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-access-edit" aria-expanded="false"><span>Edycja</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="tab-access-edit" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block_edit" name="form_block_edit" action="/api/access/edit/{{ access.access_id }}">
+                                    <div class="row">
+                                        <div class="title-box">Dane użytkownika</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="access_name">Nazwa uprawnienia</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="access_name" name="access_name" placeholder="Wpisz nazwę uprawnienia" required autofocus tabindex="1" value="{{ access.access_name }}" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="access_level">Poziom dostępu (Cyfra od 1 do 20)</label>
+                                                <input type="number" min="1" max="20" autocomplete="off" class="form-control" id="access_level" name="access_level" placeholder="Wpisz poziom dostępu" required tabindex="2" value="{{ access.access_level }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="access_description">Opis uprawnienia</label>
+                                                <textarea class="form-control" id="access_description" name="access_description" rows="4" placeholder="Wpisz opis uprawnienia" required tabindex="3">{{ access.access_description }}</textarea>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <input type="hidden" class="form-control" id="access_id" name="access_id" value="{{ access.access_id }}">
+                                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button> 
+                                            <button type="button" class="btn btn-danger backtolist">Powrót do listy</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

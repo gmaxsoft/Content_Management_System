@@ -1,0 +1,54 @@
+{% extends "header_main.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/dashboard">Dashboard</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-dashboard" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-dashboard" aria-expanded="true"><span>Pulpit</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-expanded="true">
+                                <div class="row">
+                                    <div class="col-xl-12 col-lg-12">
+                                        <div class="center">
+                                            <p>&nbsp;</p>
+                                            <img class="logo-cms" src="/images/logo.png" alt="Supreme CMS" />
+                                            <p>&nbsp;</p>
+                                            <h3>Witaj {{ user_first_name }}
+                                                <h4>Życzymy Tobie {{ dayofweek }}</h4>
+                                                <h4>oraz owocnej pracy!</h4>
+                                                <p>&nbsp;</p>
+                                        </div>
+                                        <div class="center" style="font-style: italic;max-width:500px; margin:auto;">
+                                            <h4>&ldquo;{{ sentence_html|raw }}&rdquo;</h4>
+                                            <p>&nbsp;</p>
+                                        </div>
+                                        <p>&nbsp;</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

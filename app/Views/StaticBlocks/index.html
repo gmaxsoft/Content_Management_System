@@ -1,0 +1,125 @@
+{% extends "header_main.html" %}
+{% block title %}Bloki statyczne{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/staticblocks">Bloki statyczne</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-staticblocks-one" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-staticblocks-one" aria-expanded="true"><span>Lista</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-staticblocks-two" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-staticblocks-two" aria-expanded="false"><span>Dodaj</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-staticblocks-one" role="tabpanel" aria-expanded="true">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <div id="toolbar">
+                                    <button id="remove" class="btn btn-danger" disabled>
+                                        <i class="fa fa-trash"></i> Usuń
+                                    </button>
+                                </div>
+                                <table id="datatable" class="table-striped" data-page-list="[10, 25, 50, 100, all]" data-show-refresh="true" data-sticky-header="true" data-filter-control="true" data-show-search-clear-button="true" data-show-columns="true" data-show-columns-toggle-all="true" data-sticky-header="true" data-toolbar="#toolbar" data-id-field="block_id" data-editable-url="/api/staticblocks/inline/" data-editable-params="{'csrf_token': '{{ csrf_token }}'}">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th data-field="action">Akcja</th>
+                                            <th data-field="block_id" data-visible="true">Id</th>
+                                            <th data-field="block_title" data-filter-control="input" data-editable="true" data-editable-emptytext="Brak danych">Tytuł/Nazwa</th>
+                                            <th data-field="block_description" data-filter-control="input">Treść</th>
+                                            <th data-field="block_group" data-filter-control="select">Grupa</th>
+                                            <th data-field="block_identifier" data-filter-control="input" data-editable="true" data-editable-emptytext="Brak danych">Identyfikator</th>
+                                            <th data-field="block_display" data-filter-control="input" data-editable="true" data-editable-type="select" data-editable-source="[{'value': 'Tak', 'text': 'Tak'}, {'value': 'Nie', 'text': 'Nie'}]">Widoczność</th>
+                                            <th data-field="block_lang" data-filter-control="select">Język</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="tab-staticblocks-two" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="/api/staticblocks/add">
+                                    <div class="row">
+                                        <div class="title-box">Blok statyczny - Dodaj</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="block_title">Tytuł/Nazwa</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="block_title" name="block_title" placeholder="Wpisz tytuł" required autofocus tabindex="1" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_identifier">Identyfikator</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="block_identifier" name="block_identifier" placeholder="Wpisz identyfikator" tabindex="2" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_group">Grupa</label>
+                                                <select class="form-control" autocomplete="off" id="block_group" name="block_group" tabindex="3" required>
+                                                    <option value="">Wybierz</option>
+                                                    <option value="TopBar">TopBar</option>
+                                                    <option value="Header">Header</option>
+                                                    <option value="Nav">Nav</option>
+                                                    <option value="Content">Content</option>
+                                                    <option value="Left Sidebar">Left Sidebar</option>
+                                                    <option value="Right Sidebar">Right Sidebar</option>
+                                                    <option value="Footer">Footer</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_display">Widoczność</label>
+                                                <select class="form-control" autocomplete="off" id="block_display" name="block_display" tabindex="3" required>
+                                                    <option value="">Wybierz</option>
+                                                    <option value="Nie">Nie</option>
+                                                    <option value="Tak" selected>Tak</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_lang">Język</label>
+                                                <select class="form-control" autocomplete="off" id="block_lang" name="block_lang" tabindex="4">
+                                                    {% for lang in available_langs %}
+                                                    <option value="{{ lang.lang_id }}" {{ lang.lang_id==current_lang ? 'selected="selected"' : '' }}>
+                                                        {{ lang.lang_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="block_description">Treść</label>
+                                                <textarea class="form-control" autocomplete="off" id="block_description" name="block_description" rows="10" cols="150" tabindex="5"></textarea>
+                                            </div>
+                                        </div>
+                                        <p>&nbsp;</p>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <button type="submit" class="btn btn-primary">Dodaj</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

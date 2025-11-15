@@ -1,0 +1,59 @@
+{% extends "header_main.html" %}
+{% block title %}Hasło serwisowe{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/servicepassword">Hasło serwisowe</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-users-one" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-users-one" aria-expanded="true"><span>Utwórz/Zmień hasło serwisowe</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-users-one" role="tabpanel" aria-expanded="true">
+                               
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="#">
+                                    <div class="row">
+                                        <div class="title-box">Hasło serwisowe</div>
+                                        <div class="form-group">
+                                            <label for="user_level">Hasło</label>
+                                            <input type="password" id="passwd_hash" name="passwd_hash" class="form-control" placeholder="Hasło" tabindex="1" minlength="8" autocomplete="" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="user_level">Powtórz hasło</label>
+                                            <input type="password" id="confirm_passwd_hash" name="confirm_passwd_hash" class="form-control" placeholder="Powtórz Hasło" tabindex="2" minlength="8" autocomplete="" />
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <button type="submit" class="btn btn-primary">Zapisz hasło</button>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "header_main.html" %}
+{% block title %}Edycja Bloku Statycznego{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/staticblocks">Bloki statyczne</a></li>
+                        <li class="breadcrumb-item active"><a href="/staticblocks/edit/{{ block.block_id }}">Edycja bloku</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-static-block-edit" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-static-block-edit" aria-expanded="false"><span>Edycja</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="tab-static-block-edit" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block_edit" name="form_block_edit" action="">
+                                    <div class="row">
+                                        <div class="title-box">Blok statyczny - Edycja</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="block_title">Tytuł</label>
+                                                <input type="text" id="block_title" name="block_title" value="{{ block_title }}" class="form-control" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_identifier">Identyfikator</label>
+                                                <input type="text" id="block_identifier" name="block_identifier" value="{{ block_identifier }}" class="form-control" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_group">Grupa</label>
+                                                <select class="form-control" autocomplete="off" id="block_group" name="block_group" tabindex="3" required>
+                                                    <option value="" {{ block_group=='' ? 'selected' : '' }}>Wybierz</option>
+                                                    <option value="TopBar" {{ block_group=='TopBar' ? 'selected' : '' }}>TopBar</option>
+                                                    <option value="Header" {{ block_group=='Header' ? 'selected' : '' }}>Header</option>
+                                                    <option value="Nav" {{ block_group=='Nav' ? 'selected' : '' }}>Nav</option>
+                                                    <option value="Content" {{ block_group=='Content' ? 'selected' : '' }}>Content</option>
+                                                    <option value="Left Sidebar" {{ block_group=='Left Sidebar' ? 'selected' : '' }}>Left Sidebar</option>
+                                                    <option value="Right Sidebar" {{ block_group=='Right Sidebar' ? 'selected' : '' }}>Right Sidebar</option>
+                                                    <option value="Footer" {{ block_group=='Footer' ? 'selected' : '' }}>Footer</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_display">Widoczność</label>
+                                                <select id="block_display" name="block_display" class="form-control" required>
+                                                    <option value="Nie" {{ block_display=='Nie' ? 'selected' : '' }}>Nie</option>
+                                                    <option value="Tak" {{ block_display=='Tak' ? 'selected' : '' }}>Tak</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="block_lang">Język</label>
+                                                <select id="block_lang" name="block_lang" class="form-control" required>
+                                                    <option value="">Wybierz język</option>
+                                                    {% for lang in available_langs %}
+                                                    <option value="{{ lang.lang_id }}" {{ lang.lang_id==current_lang ? 'selected="selected"' : '' }}>
+                                                        {{ lang.lang_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="block_description">Opis</label>
+                                                <textarea class="form-control" autocomplete="off" id="block_description" name="block_description" rows="10" cols="150" tabindex="5">{{ block_description }}</textarea>
+                                            </div>
+                                        </div>
+                                        <p>&nbsp;</p>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <input type="hidden" name="block_id" value="{{ block_id }}" />
+                                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                                            <button type="button" class="btn btn-danger backtolist">Powrót do listy</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

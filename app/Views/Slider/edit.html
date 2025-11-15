@@ -1,0 +1,169 @@
+{% extends "header_main.html" %}
+{% block title %}Edycja Slajdów{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/slider">Slajdy</a></li>
+                        <li class="breadcrumb-item active"><a href="/slider/edit/{{ slider_id }}/">Edycja slajdu</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-slider-edit" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-slider-edit" aria-expanded="false"><span>Edycja</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-s2" class="nav-link" data-bs-toggle="tab" data-target="#tab-s2" aria-expanded="true"><span>Pliki slidera</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-s3" class="nav-link" data-bs-toggle="tab" data-target="#tab-s3" aria-expanded="true"><span>Dodaj/Zmień pliki</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="tab-slider-edit" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block_edit" name="form_block_edit" action="">
+                                    <div class="row">
+                                        <div class="title-box">Slider - Edycja</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="slider_identifier">Identyfikator</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="slider_identifier" name="slider_identifier" placeholder="Wpisz identyfikator" value="{{ slider_identifier }}" required autofocus tabindex="1" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_title">Tytuł</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="slider_title" name="slider_title" placeholder="Wpisz tytuł" value="{{ slider_title }}" tabindex="2" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_url">Url Video (Opcja - zostaw puste jeśli nie masz linku do video)</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="slider_url" name="slider_url" placeholder="Wpisz url" value="{{ slider_url }}" tabindex="3" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_display">Widoczność</label>
+                                                <select id="slider_display" name="slider_display" class="form-control" required>
+                                                    <option value="Nie" {{ slider_display=='Nie' ? 'selected' : '' }}>Nie</option>
+                                                    <option value="Tak" {{ slider_display=='Tak' ? 'selected' : '' }}>Tak</option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="slider_lang">Język</label>
+                                                <select id="slider_lang" name="slider_lang" class="form-control" required>
+                                                    <option value="">Wybierz język</option>
+                                                    {% for lang in available_langs %}
+                                                    <option value="{{ lang.lang_id }}" {{ lang.lang_id==current_lang ? 'selected="selected"' : '' }}>
+                                                        {{ lang.lang_name }}
+                                                    </option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="slider_description">Opis</label>
+                                                <textarea class="form-control" autocomplete="off" id="slider_description" name="slider_description" rows="10" cols="150" tabindex="5">{{ slider_description }}</textarea>
+                                            </div>
+                                        </div>
+                                        <p>&nbsp;</p>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <input type="hidden" name="slider_id" value="{{ slider_id }}" />
+                                            <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+                                            <button type="button" class="btn btn-danger backtolist">Powrót do listy</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tab-s2" aria-expanded="false">
+                                <div class="row">
+                                    <div class="page_content">
+                                        <div class="message">
+                                            <div class="alert animate-show-hide" role="alert"></div>
+                                        </div>
+                                        <div id="toolbar">
+                                            <button id="remove_files" class="btn btn-danger" disabled>
+                                                <i class="fa fa-trash"></i> Usuń
+                                            </button>
+                                        </div>
+                                        <table id="datatable_files" data-show-refresh="true" class="table-striped" data-page-list="[10, 25, 50, 100, all]" data-filter-control="true" data-show-search-clear-button="true" data-toolbar="#toolbar"  data-use-row-attr-func="true" data-reorderable-rows="true" data-id-field="file_id" data-slider-id="{{ slider_id }}">
+                                            <thead>
+                                                <tr>
+                                                    <th data-field="state" data-checkbox="true"></th>
+                                                    <th data-field="file_move"><i class="fa fa-arrows" aria-hidden="true"></i></th>
+                                                    <th data-field="file_id">Id</th>
+                                                    <th data-field="file_src">Miniatura</th>
+                                                    <th data-field="file_name" data-filter-control="input">Nazwa pliku</th>
+                                                    <th data-field="file_type" data-filter-control="input">Typ pliku</th>
+                                                    <th data-field="file_created_at" data-filter-control="input">Data dodania</th>
+                                                    <th data-field="action">Akcja</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-s3" aria-expanded="false">
+                                <div class="row">
+                                    <div class="page_content">
+                                        <div class="message">
+                                            <div class="alert animate-show-hide" role="alert"></div>
+                                        </div>
+                                        <!-- File Upload -->
+                                        <form action="/api/slider/uploadfiles/{{ slider_id }}/" method="post" class="dropzone" id="upload-form" data-plugin="dropzone" data-previews-container="#file-previews" data-upload-preview-template="#uploadPreviewTemplate">
+                                            <div class="fallback">
+                                                <input name="file" type="file" multiple />
+                                            </div>
+                                            <div class="dz-message needsclick">
+                                                <i class="h1 text-muted fa-solid fa-cloud-arrow-up"></i>
+                                                <h3>Upuść pliki tutaj lub kliknij, aby przesłać.</h3>
+                                            </div>
+                                        </form>
+                                        <!-- Preview -->
+                                        <div class="dropzone-previews mt-3" id="file-previews"></div>
+                                        <!-- file preview template -->
+                                        <div class="d-none" id="uploadPreviewTemplate">
+                                            <div class="card mt-1 mb-0 shadow-none border">
+                                                <div class="p-2">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-auto">
+                                                            <img data-dz-thumbnail src="#" class="avatar-sm rounded bg-light" alt="">
+                                                        </div>
+                                                        <div class="col ps-0">
+                                                            <a href="javascript:void(0);" class="text-muted fw-bold" data-dz-name></a>
+                                                            <p class="mb-0" data-dz-size></p>
+                                                            <div class="dz-progress"></div>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <a href="" class="btn btn-link btn-lg text-muted" data-dz-remove>
+                                                                <i class="dripicons-cross"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End tab-content 3-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

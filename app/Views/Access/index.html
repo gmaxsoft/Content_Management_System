@@ -1,0 +1,94 @@
+{% extends "header_main.html" %}
+{% block title %}Uprawnienia{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/access">Ustawienia</a></li>
+                        <li class="breadcrumb-item active"><a href="/access">Uprawnienia</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-access-one" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-access-one" aria-expanded="true"><span>Lista</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-access-two" class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-access-two" aria-expanded="false"><span>Dodaj</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-access-one" role="tabpanel" aria-expanded="true">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <div class="row">
+                                    <div id="toolbar">
+                                        <button id="remove" class="btn btn-danger" disabled>
+                                            <i class="fa fa-trash"></i> Usuń
+                                        </button>
+                                    </div>
+                                    <table id="datatable" data-page-list="[10, 25, 50, 100, all]" data-show-refresh="true" data-sticky-header="true" data-filter-control="true" data-show-search-clear-button="true" data-cookie="true" data-cookie-id-table="tableaccess" data-show-columns="true" data-show-columns-toggle-all="true" data-sticky-header="true" data-filter-control="true" data-toolbar="#toolbar" data-id-field="access_id">
+                                        <thead>
+                                            <tr>
+                                                <th data-field="state" data-checkbox="true"></th>
+                                                <th data-field="action">Akcja</th>
+                                                <th data-field="access_id" data-visible="false">Id</th>
+                                                <th data-field="access_name" data-filter-control="input">Nazwa uprawnienia</th>
+                                                <th data-field="access_level" data-filter-control="input">Poziom dostępu</th>
+                                                <th data-field="access_description" data-filter-control="input">Opis uprawnienia</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tab-access-two" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="">
+                                    <div class="row">
+                                        <div class="title-box">Dane uprawnienia</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="access_name">Nazwa uprawnienia</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="access_name" name="access_name" placeholder="Wpisz nazwę uprawnienia" required autofocus tabindex="1" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="access_level">Poziom dostępu (Cyfra od 1 do 20)</label>
+                                                <input type="number" min="1" max="20" autocomplete="off" class="form-control" id="access_level" name="access_level" placeholder="Wpisz poziom dostępu" required tabindex="2" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="access_description">Opis uprawnienia</label>
+                                                <textarea class="form-control" id="access_description" name="access_description" rows="4" placeholder="Wpisz opis uprawnienia" tabindex="3"></textarea>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                            <button type="submit" class="btn btn-primary">Dodaj uprawnienie</button> <button type="reset" class="btn btn-danger">Wyczyść</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+
+{% endblock %}

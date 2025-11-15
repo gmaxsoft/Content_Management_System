@@ -1,0 +1,87 @@
+{% htmlcompress %}
+<!doctype html>
+<html lang="pl">
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="icon" type="image/x-icon" href="/images/favicon/favicon.ico">
+</head>
+
+<body id="body-pd" class="body-pd">
+    <header class="header body-pd" id="header">
+        <div class="header_toggle d-block d-md-inline"> <i class='bx bx-menu bx-x' id="header-toggle"></i> </div>
+        <div class="header_message d-block d-md-inline">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.type }}" role="alert">
+                {{ message.text }}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="d-block d-md-inline">
+            <div class="d-flex align-items-center justify-content-end">
+                <i class="fa-regular fa-clock"></i>
+                <div id="clock" class="clock"></div>
+                <a href="{{frontend_url}}" class="earth-icon border-left-sepline"><i class="fa-solid fa-earth-americas"></i></a>
+                <div class="dropdown border-left-sepline">
+                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                        <div class="userinfo d-flex align-items-center"><i class="fa-regular fa-user"></i> {{userinfo.user_first_name}} {{userinfo.user_last_name}}</div>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li><a class="dropdown-item" href="/users/profile/{{userinfo.user_id}}/" title="Twój profil"><i class='bx bx-user'></i> Profil</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/logout" title="Wyloguj się"><i class='bx bx-log-out'></i> Wyloguj się</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="l-navbar show" id="nav-bar">
+        <nav class="nav">
+            <div>
+                <a href="#" class="nav_logo"> <i class='bx bx-layer nav_logo-icon'></i> <span class="nav_name nav_logo-name">CMS</span> </a>
+                <ul class="nav_list">
+                    {% for item in menu %}
+                    <li{% if item.children|length> 0 %} class="dropdown"{% endif %}>
+                        <a href="{% if item.children|length > 0 %}#submenu{{ loop.index }}{% else %}{{ item.href|default('#') }}{% endif %}" class="nav_link mb-1{% if item.children|length > 0 %} min-margin collapsed{% endif %}{% if item.href == '/home/' %} active{% endif %}" title="{{ item.tooltip }}" {% if item.children|length> 0 %} data-bs-toggle="collapse"{% endif %}
+                            {% if item.target %} target="{{ item.target }}"{% endif %}>
+                            <i class="{{ item.icon }} nav_icon"></i>
+                            <span class="nav_name">{{ item.text }}</span>
+                        </a>
+                        {% if item.children|length > 0 %}
+                        <ul class="collapse nav flex-column flex-column-bg" id="submenu{{ loop.index }}" data-bs-parent="#menu">
+                            {% for subitem in item.children %}
+                            <li class="nav_item">
+                                <a href="{{ subitem.href }}" class="nav_link mb-1" title="{{ subitem.tooltip }}" {% if subitem.target %} target="{{ subitem.target }}" {% endif %}>
+                                    <span class="link_name">{{ subitem.text }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        </li>
+                        {% endfor %}
+                </ul>
+                <a href="/logout" class="nav_link log-out" title="Wyloguj się"> <i class='bx bx-log-out nav_icon'></i> <span class="nav_name">Wyloguj się</span></a>
+            </div>
+        </nav>
+    </div>
+    {% block content %}{% endblock %}
+    {% block body %}
+    {% endblock %}
+    <script type="module" src="/js/app.js"></script>
+    {% block footer %}
+    {% endblock %}
+</body>
+
+</html>
+{% endhtmlcompress %}

@@ -1,0 +1,133 @@
+{% extends "header_main.html" %}
+{% block title %}Edycja Użytkownika{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="/users">Użytkownicy</a></li>
+                        <li class="breadcrumb-item active"><a href="/users/edit/{{ user.user_id }}">Dane użytkownika</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-users-edit" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-users-edit" aria-expanded="false"><span>Edycja</span></a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-users-edit-password" class="nav-link" data-bs-toggle="tab" data-target="#tab-users-edit-password" aria-expanded="true"><span>Zmiana hasła</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active show" id="tab-users-edit" role="tabpanel" aria-expanded="false">
+                                <div class="message">
+                                    <div class="alert animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block_edit" name="form_block_edit" action="/api/users/edit/{{ user.user_id  }}">
+                                    <div class="row">
+                                        <div class="title-box">Dane użytkownika</div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="user_first_name">Imię</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_first_name" name="user_first_name" placeholder="Wpisz imię użytkownika" required autofocus tabindex="1" value="{{ user.user_first_name }}" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_stand_name">Stanowisko</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_stand_name" name="user_stand_name" placeholder="Wpisz stanowisko" tabindex="3" value="{{ user.user_stand_name }}" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_phone">Telefon</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_phone" name="user_phone" placeholder="Wpisz telefon" tabindex="5" value="{{ user.user_phone }}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="user_last_name">Nazwisko</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_last_name" name="user_last_name" placeholder="Wpisz nazwisko użytkownika" required tabindex="2" value="{{ user.user_last_name }}" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_symbol">Symbol / Skrót</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="user_symbol" name="user_symbol" placeholder="Wpisz dwu literowy symbol" maxlength="2" required tabindex="4" value="{{ user.user_symbol }}" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="user_description">Opis</label>
+                                                <textarea type="text" autocomplete="off" class="form-control" id="user_description" name="user_description" placeholder="Uwagi" tabindex="6" cols="5" rows="3">{{ user.user_description }}</textarea>
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <label for="user_level">Uprawnienia</label><br />
+                                            <div class="radio radio-success">
+                                                {% for access in accessLevels %}
+                                                <input type="radio" id="user_level_{{ access.access_id }}" name="user_level" value="{{ access.access_id }}" required tabindex="7" {% if user.user_level == access.access_id %}checked{% endif %} />
+                                                <label for="user_level_{{ access.access_id }}">{{ access.access_name }}</label>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                        <hr />
+                                        <div class="title-box">Dane logowania</div>
+                                        <div class="form-group">
+                                            <label for="user_email">Adres e-mial/login</label>
+                                            <input type="text" class="form-control" id="user_email" name="user_email" placeholder="Wpisz e-mail" autocomplete="off" required tabindex="8" value="{{ user.user_email }}" />
+                                        </div>
+                                        <hr />
+                                        <div class="form-group">
+                                            <input type="hidden" name="csrf_token" value="{{csrf_token}}" />
+                                            <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{ user.user_id }}">
+                                            <button type="submit" class="btn btn-primary">Uaktualnij</button>
+                                            <button type="button" class="btn btn-danger backtolist">Powrót do listy</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="tab-users-edit-password" role="tabpanel" aria-expanded="false">
+                                <div class="page_content">
+                                    <div class="row">
+                                        <div class="message">
+                                            <div class="alert alert-info animate-show-hide" role="alert"></div>
+                                        </div>
+                                        <form method="POST" id="form_passwd" name="form_passwd" style="width:100%;">
+                                            <div class="title-box">Zmiana hasła</div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <div class="form-group">
+                                                        <label for="user_level">Nowe hasło</label>
+                                                        <input type="password" id="user_password" name="user_password" placeholder="Nowe Hasło" autocomplete="" class="form-control" tabindex="1" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="user_level">Powtórz hasło</label>
+                                                        <input type="password" id="user_confirm_password" name="user_confirm_password" placeholder="Powtórz Hasło" class="form-control" autocomplete="" tabindex="2" />
+                                                    </div>
+                                                    <hr />
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}" />
+                                                        <input type="hidden" class="form-control" id="user_id" name="user_id" value="{{ user.user_id }}">
+                                                        <button type="submit" class="btn btn-primary">Zmień hasło</button>
+                                                        <button type="button" class="btn btn-danger backtolist">Powrót do listy</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div>&nbsp;</div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

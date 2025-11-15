@@ -1,0 +1,73 @@
+{% extends "header_main.html" %}
+{% block title %}Formularz kontaktowy{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/contactform">Formularz kontaktowy</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-contact" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-contact" aria-expanded="true"><span>Lista</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-contact" role="tabpanel" aria-expanded="true">
+                                <div class="message">
+                                    <div class="alert alert-info animate-show-hide" role="alert"></div>
+                                </div>
+                                <form method="POST" id="form_block" name="form_block" action="">
+                                    <div class="title-box">Ustawienia formularza</div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="form_email">E-mial</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="form_email" name="form_email" placeholder="Wpisz email" value="{{ form_email|default('') }}" required autofocus tabindex="1" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form_email_alias">E-mial alias (Opcja)</label>
+                                                <input type="text" autocomplete="off" class="form-control" id="form_email_alias" name="form_email_alias" placeholder="Wpisz dodatkowy email" value="{{ form_email_alias|default('') }}" tabindex="2" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="form_return_email_status">Wiadomość zwrotna</label>
+                                                <select class="form-control" autocomplete="off" id="form_return_email_status" name="form_return_email_status" tabindex="3">
+                                                    <option value="Nie" {{ form_return_email_status=='Nie' ? 'selected' : '' }}>Nie</option>
+                                                    <option value="Tak" {{ form_return_email_status=='Tak' ? 'selected' : '' }}>Tak</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12 col-md-6 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="form_return_message">Treść wiadomości zwrotnej (Opcja)</label>
+                                                <textarea class="form-control" autocomplete="off" id="form_return_message" name="form_return_message" rows="10" cols="150" tabindex="4">{{ form_return_message|default('')|e }}</textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div class="form-group">
+                                        <input type="hidden" name="csrf_token" value="{{csrf_token}}">
+                                        <input type="hidden" name="form_id" value="{{ form_id }}">
+                                        <button type="submit" class="btn btn-primary">Zapisz</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

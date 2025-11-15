@@ -1,0 +1,106 @@
+{% extends "header_main.html" %}
+{% block title %}Nawigacja CMS{% endblock %}
+{% block body %}
+<!--Container Main start-->
+<div class="page-content-wrapper">
+    <div class="content">
+        <div class="jumbotron" data-pages="parallax">
+            <div class=" container-fluid container-fixed-lg">
+                <div class="inner">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="/navigation">Nawigacja</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid container-fixed-lg">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="row">
+                    <div class="card card-transparent ">
+                        <ul class="nav nav-tabs nav-tabs-fillup hidden-sm-down" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a href="#tab-navigation" class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-navigation" aria-expanded="true"><span>Edytor nawigacji</span></a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="tab-navigation" role="tabpanel" aria-expanded="true">
+                                <div class="row column-seperation">
+                                    <div class="message">
+                                        <div class="alert alert-info animate-show-hide" role="alert"></div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <div class="block-title">Zarządzaj nawigacją.</div>
+                                        <div class="block-content">
+                                            <div class="form-group">&nbsp;</div>
+                                            <div id="menu" class="menuadmin"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6 col-lg-6">
+                                        <div class="block-title">Edycja Menu</div>
+                                        <div class="block-content">
+                                            <form id="frmEdit" name="frmEdit">
+                                                <div class="form-group">
+                                                    <label for="txtText">Nazwa</label>
+                                                    <input type="text" class="form-control item-menu" name="text" id="txtText" value="" placeholder="Nazwa">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="txtIcon" class="form-label">Ikona</label>
+                                                    <div class="input-group">
+                                                        <input type="text" id="txtIcon" name="txtIcon" class="form-control" placeholder="Icon" readonly>
+                                                        <span class="input-group-text" id="selectedIconDisplay"></span>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="txtHref">URL</label>
+                                                    <input type="text" class="form-control item-menu" id="txtHref" name="href" value="" placeholder="URL">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="target">Sposób otwarcia</label>
+                                                    <select name="target" id="target" class="form-control item-menu">
+                                                        <option value="_self">Self</option>
+                                                        <option value="_blank">Blank</option>
+                                                        <option value="_top">Top</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="txtTooltip">Opis</label>
+                                                    <input type="text" name="title" class="form-control item-menu" id="txtTooltip" value="" placeholder="Opis">
+                                                </div>
+                                                <div class="clearfloat"></div>
+                                                <hr />
+                                                <div>
+                                                    <button type="button" id="btnUpdate" name="btnUpdate" class="btn btn-warning" disabled><i class="fas fa-sync-alt"></i> Aktualizuj</button>
+                                                    <button type="button" id="btnAdd" name="btnAdd" class="btn btn-success"><i class="fas fa-plus"></i> Dodaj</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- popup iconpicker -->
+                    <!-- popup -->
+                    <div class="modal fade" id="iconPickerPopup" tabindex="-1" aria-labelledby="iconPickerModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="iconPickerModalLabel">Wybierz ikonę FontAwesome</h5>
+                                    <button type="button" class="btn-close" id="closePopup" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <input type="text" class="form-control" id="iconSearch" placeholder="Szukaj ikony po nazwie...">
+                                    </div>
+                                    <div id="iconList" class="icon-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Container Main end-->
+{% endblock %}

@@ -1,0 +1,61 @@
+{
+  "name": "htdocs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gmaxsoft/cms.git"
+  },
+  "keywords": [],
+  "author": "Maxsoft",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/gmaxsoft/cms/issues"
+  },
+  "homepage": "https://github.com/gmaxsoft/cms#readme",
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "babel-loader": "^10.0.0",
+    "copy-webpack-plugin": "^13.0.0",
+    "css-loader": "^7.1.2",
+    "css-minimizer-webpack-plugin": "^7.0.2",
+    "expose-loader": "^5.0.1",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.89.2",
+    "sass-embedded": "^1.89.2",
+    "sass-loader": "^16.0.5",
+    "style-loader": "^4.0.0",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
+  },
+  "dependencies": {
+    "@fancyapps/ui": "^6.0.34",
+    "@fortawesome/fontawesome-free": "^7.0.0",
+    "@maxsoft/bootstrap_menu_editor": "^1.0.4",
+    "@pluginjs/icon-picker": "^0.8.18",
+    "bootstrap": "^5.3.7",
+    "bootstrap-iconpicker": "^1.8.2",
+    "bootstrap-icons": "^1.13.1",
+    "bootstrap-table": "^1.24.1",
+    "ckeditor5": "^47.0.0",
+    "dragtable": "^2.0.12",
+    "dropzone": "^6.0.0-beta.2",
+    "jquery": "^3.7.1",
+    "jquery-confirm": "^3.3.4",
+    "jquery-ui-dist": "^1.13.3",
+    "jspdf-autotable": "^5.0.2",
+    "tablednd": "^1.0.5",
+    "tableexport.jquery.plugin": "^1.9.9"
+  }
+}
