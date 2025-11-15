@@ -17,7 +17,7 @@ class UsersController extends DefaultController
         parent::__construct(...$parentArgs);
     }
 
-{
+    /**
     /**
      * Wyświetla stronę z listą użytkowników.
      * Używane do renderowania widoku z tabelą użytkowników.
