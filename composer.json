@@ -20,7 +20,7 @@
         "paragonie/sodium_compat": "^2.1",
         "vlucas/phpdotenv": "^5.6",
         "twig/twig": "^3.0",
-        "illuminate/database": "^11.0",
+        "illuminate/database": "^10.0",
         "php-di/php-di": "^7.0",
         "pecee/simple-router": "^5.4",
         "voku/html-compress-twig": "^4.0",
