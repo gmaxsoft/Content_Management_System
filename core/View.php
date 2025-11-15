@@ -66,9 +66,7 @@ class View
 			$loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/app/Views');
 			$twig = new \Twig\Environment($loader);
 
-			// Kompresja HTML
-			$minifier = new \voku\helper\HtmlMin();
-			$twig->addExtension(new \voku\twig\MinifyHtmlExtension($minifier));
+			// Używamy natywnego Twig spaceless tag dla kompresji HTML
 			$twig->addGlobal('userinfo', $_SESSION['userinfo'] ?? null);
 			$twig->addGlobal('frontend_url', $_ENV['FRONTEND_URL'] ?? null);
 			$twig->addGlobal('csrf_token', $csrf_token);
