@@ -34,7 +34,7 @@ jobs:
     - name: Run PHP CodeSniffer
       run: |
         if [ -f vendor/bin/phpcs ]; then
-          vendor/bin/phpcs --standard=PSR12 app/ core/ --ignore=vendor/ || echo "PHP CodeSniffer found issues (non-blocking)"
+          vendor/bin/phpcs --standard=PSR12 app/ core/ --ignore=vendor/
         else
           echo "PHP CodeSniffer not found, skipping..."
         fi
@@ -42,7 +42,7 @@ jobs:
     - name: Run PHPStan
       run: |
         if [ -f vendor/bin/phpstan ]; then
-          vendor/bin/phpstan analyse app/ core/ --level=5 || echo "PHPStan found issues (non-blocking)"
+          vendor/bin/phpstan analyse --configuration=phpstan.neon
         else
           echo "PHPStan not found, skipping..."
         fi
@@ -50,7 +50,7 @@ jobs:
     - name: Run GrumPHP
       run: |
         if [ -f vendor/bin/grumphp ]; then
-          vendor/bin/grumphp run || echo "GrumPHP found issues (non-blocking)"
+          vendor/bin/grumphp run
         else
           echo "GrumPHP not found, skipping..."
         fi

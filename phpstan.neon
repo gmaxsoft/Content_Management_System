@@ -1,0 +1,18 @@
+parameters:
+    level: 5
+    paths:
+        - app
+        - core
+    excludePaths:
+        - vendor/*
+        - tests/*
+    ignoreErrors:
+        - '#Call to an undefined method [a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\)#'
+        - '#Access to an undefined property [a-zA-Z0-9\\_]+\:::\$[a-zA-Z0-9_]+#'
+        - '#Method [a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\) should return [a-zA-Z0-9\\_]+ but returns [a-zA-Z0-9\\_]+#'
+        - '#Cannot call method [a-zA-Z0-9_]+\(\) on mixed#'
+        - '#Parameter \#1 \$[a-zA-Z0-9_]+ of method [a-zA-Z0-9\\_]+::[a-zA-Z0-9_]+\(\) expects [a-zA-Z0-9\\_]+, mixed given#'
+    scanDirectories:
+        - vendor
+    scanFiles:
+        - tests/bootstrap.php

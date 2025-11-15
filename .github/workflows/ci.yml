@@ -99,7 +99,13 @@ jobs:
         " || echo "Database setup completed"
 
     - name: Run tests
-      run: ./vendor/bin/phpunit --coverage-text --colors=never --coverage-clover=coverage.xml
+      run: |
+        if [ -f vendor/bin/phpunit ]; then
+          ./vendor/bin/phpunit --coverage-text --colors=never --coverage-clover=coverage.xml
+        else
+          echo "PHPUnit not found, skipping tests..."
+          exit 1
+        fi
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4
