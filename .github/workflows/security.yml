@@ -34,12 +34,12 @@ jobs:
       run: composer install --no-progress --prefer-dist --optimize-autoloader
 
     - name: Run Composer Security Audit
-      run: composer audit --format=summary || true
+      run: composer audit --format=summary
 
     - name: Check for vulnerable dependencies
       run: |
         if command -v safety &> /dev/null; then
-          safety check --json || true
+          safety check --json || echo "Safety check completed with warnings (non-blocking)"
         else
           echo "Safety tool not found, skipping Python dependency check..."
         fi

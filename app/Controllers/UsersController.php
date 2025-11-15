@@ -18,7 +18,6 @@ class UsersController extends DefaultController
     }
 
     /**
-    /**
      * Wyświetla stronę z listą użytkowników.
      * Używane do renderowania widoku z tabelą użytkowników.
      */

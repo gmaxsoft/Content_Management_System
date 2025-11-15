@@ -19,18 +19,17 @@
         "firebase/php-jwt": "^6.11",
         "paragonie/sodium_compat": "^2.1",
         "vlucas/phpdotenv": "^5.6",
-        "twig/twig": "3.0.4",
-        "illuminate/database": "^12.2",
+        "twig/twig": "^3.0",
+        "illuminate/database": "^11.0",
         "php-di/php-di": "^7.0",
         "pecee/simple-router": "^5.4",
         "voku/html-compress-twig": "^4.0",
-        "mpdf/mpdf": "^8.2.6",
-        "spatie/image": "^3.8",
-        "intervention/image": "^3.11"
+        "mpdf/mpdf": "^8.2",
+        "intervention/image": "^2.7"
     },
     "require-dev": {
-        "phpro/grumphp": "^2.12",
-        "phpunit/phpunit": "^11.0"
+        "phpro/grumphp": "^1.0",
+        "phpunit/phpunit": "^10.0"
     },
     "config": {
         "allow-plugins": {
