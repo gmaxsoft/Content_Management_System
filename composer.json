@@ -1,6 +1,7 @@
 {
     "name": "gmisk/htdocs",
     "description": "Maxsoft MVC CMS",
+    "version": "1.0.0",
     "type": "project",
     "authors": [
         {

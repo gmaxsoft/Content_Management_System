@@ -1,6 +1,8 @@
-# Maxsoft MVC CMS
+# Maxsoft MVC CMS v1.0.0
 
 A modern, lightweight Content Management System (CMS) built with PHP and JavaScript, designed for flexibility and ease of use. This CMS follows SOLID principles and leverages an MVC architecture, utilizing PHP libraries like Laravel's Eloquent ORM, Twig templating, and a simple router, combined with a robust front-end setup using Webpack, Bootstrap, and jQuery.
+
+**Current Version:** 1.0.0 (SOLID Refactoring Release)
 
 ## Architecture & SOLID Principles
 
