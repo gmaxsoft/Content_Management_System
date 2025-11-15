@@ -227,6 +227,11 @@ tests/
   # Test single file
   ./vendor/bin/phpunit tests/Unit/Services/SliderServiceTest.php
   ```
+- **Continuous Integration**: Automated testing via GitHub Actions:
+  - Tests run automatically on push/PR to `master` and `development`
+  - Code coverage reports uploaded to Codecov
+  - Security scans performed weekly
+  - Code quality checks with PHPStan and PHPCS
 - **Front-End Development**: Run `npm run dev` for live reloading during development.
 - **Production Build**: Generate optimized assets for production:
   ```bash
