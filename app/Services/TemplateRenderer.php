@@ -4,8 +4,6 @@ namespace App\Services;
 
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-use voku\helper\HtmlMin;
-use voku\twig\MinifyHtmlExtension;
 use Pecee\SimpleRouter\SimpleRouter;
 use App\Controllers\AuthController;
 use App\Controllers\NavigationCmsController;
@@ -34,16 +32,15 @@ class TemplateRenderer implements TemplateRendererInterface
     {
         $csrf_token = SimpleRouter::router()->getCsrfVerifier()->getTokenProvider()->getToken();
         $loader = new FilesystemLoader(dirname(__DIR__, 2) . '/app/Views');
-        self::$twig = new Environment($loader);
+        self::$twig = new Environment($loader, ['auto_reload' => true]);
 
         // Kompresja HTML
-        $minifier = new HtmlMin();
-        self::$twig->addExtension(new MinifyHtmlExtension($minifier));
-
+        self::$twig->getExtensions();
         self::$twig->addGlobal('userinfo', $_SESSION['userinfo'] ?? null);
         self::$twig->addGlobal('frontend_url', $_ENV['FRONTEND_URL'] ?? null);
         self::$twig->addGlobal('csrf_token', $csrf_token);
         self::$twig->addGlobal('isLoggedIn', AuthController::isLoggedIn());
+        //$twig->addGlobal('messages', \Core\Messages::getMessages());
         //self::$twig->addGlobal('currentUser', \App\Controllers\AuthController::getUser());
 
         $menuController = new NavigationCmsController();

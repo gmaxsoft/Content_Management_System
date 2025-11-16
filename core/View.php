@@ -10,12 +10,12 @@ use App\Services\Interfaces\TemplateRendererInterface;
  */
 class View
 {
-    private static ?TemplateRendererInterface $templateRenderer = null;
+	private static ?TemplateRendererInterface $templateRenderer = null;
 
-    public static function setTemplateRenderer(TemplateRendererInterface $renderer): void
-    {
-        self::$templateRenderer = $renderer;
-    }
+	public static function setTemplateRenderer(TemplateRendererInterface $renderer): void
+	{
+		self::$templateRenderer = $renderer;
+	}
 
 	/**
 	 * Render a view file
@@ -36,35 +36,35 @@ class View
 
 	public static function redirect($url)
 	{
-        if (self::$templateRenderer) {
-            self::$templateRenderer->redirect($url);
-        } else {
-            // Fallback dla kompatybilności wstecznej
-            header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
-            exit();
-        }
+		if (self::$templateRenderer) {
+			self::$templateRenderer->redirect($url);
+		} else {
+			// Fallback dla kompatybilności wstecznej
+			header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+			exit();
+		}
 	}
 
 	public static function renderTemplate($template, $args = [])
 	{
-        if (self::$templateRenderer) {
-            self::$templateRenderer->render($template, $args);
-        } else {
-            // Fallback dla kompatybilności wstecznej - używamy starej implementacji
-            self::legacyRenderTemplate($template, $args);
-        }
+		if (self::$templateRenderer) {
+			self::$templateRenderer->render($template, $args);
+		} else {
+			// Fallback dla kompatybilności wstecznej - używamy starej implementacji
+			self::legacyRenderTemplate($template, $args);
+		}
 	}
 
-    /**
-     * Legacy method for backward compatibility
-     */
+	/**
+	 * Legacy method for backward compatibility
+	 */
 	private static function legacyRenderTemplate($template, $args = [])
 	{
 		static $twig = null;
 		if ($twig === null) {
 			$csrf_token = \Pecee\SimpleRouter\SimpleRouter::router()->getCsrfVerifier()->getTokenProvider()->getToken();
 			$loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/app/Views');
-			$twig = new \Twig\Environment($loader);
+			$twig = new \Twig\Environment($loader, ['auto_reload' => true]);
 
 			// Używamy natywnego Twig spaceless tag dla kompresji HTML
 			$twig->addGlobal('userinfo', $_SESSION['userinfo'] ?? null);
