@@ -24,7 +24,8 @@
         "php-di/php-di": "^7.0",
         "pecee/simple-router": "^5.4",
         "mpdf/mpdf": "^8.2",
-        "intervention/image": "^2.7"
+        "intervention/image": "^2.7",
+        "spatie/image": "^3.8"
     },
     "require-dev": {
         "phpro/grumphp": "^1.0",
