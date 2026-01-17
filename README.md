@@ -39,6 +39,107 @@ The application uses a service layer with dependency injection:
   - Environment configuration with `vlucas/phpdotenv`.
 - **Development Tools**: Includes GrumPHP for code quality, PHPUnit for unit testing, and Webpack for asset bundling.
 
+## Technologies Used in the Project
+
+### Backend (PHP)
+
+#### Framework and Architecture
+- **PHP 8.1+**: PHP version used in the project
+- **MVC Architecture**: Model-View-Controller pattern architecture
+- **SOLID Principles**: Software design principles
+
+#### Database and ORM
+- **MySQL**: Database management system
+- **Laravel Eloquent ORM** (`illuminate/database ^10.0`): ORM for database operations
+
+#### Routing and Dependency Injection
+- **Pecee Simple Router** (`pecee/simple-router ^5.4`): Simple and fast router
+- **PHP-DI** (`php-di/php-di ^7.0`): Dependency injection container
+
+#### Templating
+- **Twig** (`twig/twig ^3.22`): Template engine
+- **Twig Cache Extra** (`twig/cache-extra ^3.22`): Cache extension for Twig
+- **Twig Extra Bundle** (`twig/extra-bundle ^3.22`): Additional Twig features
+
+#### Authorization and Security
+- **Firebase JWT** (`firebase/php-jwt ^6.11`): JWT tokens for authorization
+- **Paragonie Sodium Compat** (`paragonie/sodium_compat ^2.1`): Cryptography
+
+#### File and Image Processing
+- **Spatie Image** (`spatie/image ^3.8`): Image processing
+- **Intervention Image** (`intervention/image ^2.7`): Image manipulation
+
+#### Documents and PDF
+- **mPDF** (`mpdf/mpdf ^8.2`): PDF document generation
+
+#### Configuration and Tools
+- **PHP Dotenv** (`vlucas/phpdotenv ^5.6`): Environment variable management
+
+#### Development Tools (Backend)
+- **PHPUnit** (`phpunit/phpunit ^10.0`): Unit testing framework
+- **PHPStan** (`phpstan/phpstan ^2.1`): Static code analysis
+- **PHP CodeSniffer** (`squizlabs/php_codesniffer ^4.0`): Coding standards compliance analysis
+- **GrumPHP** (`phpro/grumphp ^1.0`): Code quality automation
+- **PHPUnit Code Coverage** (`phpunit/php-code-coverage ^10.1`): Code coverage for tests
+
+### Frontend (JavaScript/TypeScript)
+
+#### Build Tools and Transpilation
+- **Webpack 5** (`webpack ^5.99.9`): Module bundler
+- **Babel** (`@babel/core ^7.28.0`, `@babel/preset-env ^7.28.0`): JavaScript ES6+ transpilation
+- **Babel Loader** (`babel-loader ^10.0.0`): Webpack loader for Babel
+
+#### Styles and CSS
+- **Sass** (`sass ^1.89.2`, `sass-embedded ^1.89.2`): CSS preprocessor
+- **Sass Loader** (`sass-loader ^16.0.5`): Webpack loader for Sass
+- **CSS Loader** (`css-loader ^7.1.2`): CSS processing in Webpack
+- **Style Loader** (`style-loader ^4.0.0`): Style injection into DOM
+- **Mini CSS Extract Plugin** (`mini-css-extract-plugin ^2.9.2`): CSS extraction to separate files
+- **CSS Minimizer Webpack Plugin** (`css-minimizer-webpack-plugin ^7.0.2`): CSS minimization
+
+#### UI Frameworks and Libraries
+- **Bootstrap 5** (`bootstrap ^5.3.7`): CSS framework
+- **jQuery** (`jquery ^3.7.1`): JavaScript library
+- **jQuery UI** (`jquery-ui-dist ^1.13.3`): jQuery widgets and interactions
+
+#### Icons and Graphics
+- **Bootstrap Icons** (`bootstrap-icons ^1.13.1`): Bootstrap icon set
+- **Font Awesome** (`@fortawesome/fontawesome-free ^7.0.0`): Icon library
+- **Bootstrap Iconpicker** (`bootstrap-iconpicker ^1.8.2`): Icon selector
+- **PluginJS Icon Picker** (`@pluginjs/icon-picker ^0.8.18`): Alternative icon picker
+
+#### Editors and Forms
+- **CKEditor 5** (`ckeditor5 ^47.0.0`): Advanced WYSIWYG editor
+- **Dropzone** (`dropzone ^6.0.0-beta.2`): File upload with drag & drop
+
+#### Tables and Data
+- **Bootstrap Table** (`bootstrap-table ^1.24.1`): Advanced tables
+- **TableDnD** (`tablednd ^1.0.5`): Drag & drop for tables
+- **DragTable** (`dragtable ^2.0.12`): Table column reordering
+- **TableExport jQuery Plugin** (`tableexport.jquery.plugin ^1.9.9`): Table export to various formats
+
+#### Documents and Export
+- **jsPDF AutoTable** (`jspdf-autotable ^5.0.2`): PDF generation with tables
+
+#### Additional UI Libraries
+- **FancyApps UI** (`@fancyapps/ui ^6.0.34`): UI component library
+- **jQuery Confirm** (`jquery-confirm ^3.3.4`): Beautiful dialog boxes
+- **Bootstrap Menu Editor** (`@maxsoft/bootstrap_menu_editor ^1.0.4`): Bootstrap menu editor
+
+#### Webpack Plugins and Loaders
+- **Copy Webpack Plugin** (`copy-webpack-plugin ^13.0.0`): File copying
+- **Expose Loader** (`expose-loader ^5.0.1`): Exposing global variables
+- **File Loader** (`file-loader ^6.2.0`): File handling
+- **Resolve URL Loader** (`resolve-url-loader ^5.0.0`): URL resolution in CSS
+- **Webpack CLI** (`webpack-cli ^6.0.1`): Command-line interface for Webpack
+- **Webpack Dev Server** (`webpack-dev-server ^5.2.2`): Development server with hot reload
+
+### Tools and Infrastructure
+- **Git**: Version control system
+- **Composer**: PHP dependency manager
+- **npm**: Node.js package manager
+- **Webpack Dev Server**: Development server with automatic reload
+
 ## Prerequisites
 
 Before setting up the project, ensure you have the following installed:
