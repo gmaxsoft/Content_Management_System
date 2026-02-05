@@ -45,17 +45,19 @@ jobs:
 
       - name: Setup environment
         run: |
-          cp .env.sample .env
-          echo "DB_DRIVER=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_NAME=test_db" >> .env
-          echo "DB_USER=root" >> .env
-          echo "DB_PASS=root" >> .env
-          echo "SECRET_KEY=test_secret_key_for_ci_$(openssl rand -hex 32)" >> .env
-          echo "DEBUG=true" >> .env
-          echo "FRONTEND_URL=http://localhost:3000" >> .env
-          echo "DEFAULT_BLOCK_LANG=1" >> .env
-          echo "SLIDERFILESPATH=upload/sliderImg/" >> .env
+          CI_SECRET="test_secret_key_for_ci_$(openssl rand -hex 32)"
+          {
+            echo "DEBUG=true"
+            echo "DB_DRIVER=mysql"
+            echo "DB_HOST=127.0.0.1"
+            echo "DB_NAME=test_db"
+            echo "DB_USER=root"
+            echo "DB_PASS=root"
+            echo "FRONTEND_URL=http://localhost:3000"
+            echo "SECRET_KEY=$CI_SECRET"
+            echo "DEFAULT_BLOCK_LANG=1"
+            echo "SLIDERFILESPATH=upload/sliderImg/"
+          } > .env
 
       - name: Wait for MySQL
         run: |
