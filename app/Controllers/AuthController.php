@@ -14,7 +14,8 @@ class AuthController
 
     public function getPasswdHash()
     {
-        $passwdHash = ServicePassword::find(1)?->passwd_hash ?? 'false';
+        $servicePassword = ServicePassword::find(1);
+        $passwdHash = $servicePassword ? $servicePassword->passwd_hash : 'false';
         // lub z Query Builderem:
         // $passwdHash = DB::table('service_passwd')->where('passwd_id', 1)->value('passwd_hash') ?? 'false';
 
@@ -46,7 +47,7 @@ class AuthController
             View::redirect('/');
         } else {
 
-            $data = DB::where('user_email', '=', $email, 'and')->where('user_active', '=', '1')->first();
+            $data = DB::where('user_email', $email)->where('user_active', '1')->first();
 
             if ($data) {
 
@@ -55,50 +56,78 @@ class AuthController
                     'nbf'        =>    time(),
                     'exp'        =>    time() + $expire_day,
                     'data'    => array(
-                        'user_id'    =>    $data['user_id'],
-                        'user_first_name'    =>    $data['user_first_name'],
-                        'user_last_name'    =>    $data['user_last_name']
+                        'user_id'    =>    $data->user_id,
+                        'user_first_name'    =>    $data->user_first_name,
+                        'user_last_name'    =>    $data->user_last_name
                     )
                 );
 
-                if (password_verify($password, $data['user_password'])) {
+                if (password_verify($password, $data->user_password)) {
 
-                    $key = $_ENV['SECRET_KEY'];
-                    $token = JWT::encode($payload, $key, 'HS256');
+                    $key = $_ENV['SECRET_KEY'] ?? '';
+                    // Jeśli SECRET_KEY jest pusty, użyj domyślnego (nie powinno się zdarzyć jeśli .env jest poprawnie skonfigurowany)
+                    if (empty($key)) {
+                        $key = 'default_secret_key_change_in_production_' . bin2hex(random_bytes(16));
+                    }
+                    
+                    try {
+                        $token = JWT::encode($payload, $key, 'HS256');
+                    } catch (\Exception $e) {
+                        Message::addMessage('Błąd podczas tworzenia sesji: ' . $e->getMessage(), Message::WARNING);
+                        View::redirect('/');
+                        return;
+                    }
 
                     $_SESSION['userinfo'] = [
-                        'user_id' => $data['user_id'],
-                        'user_first_name' => $data['user_first_name'],
-                        'user_last_name' => $data['user_last_name'],
-                        'user_active' => $data['user_active'],
+                        'user_id' => $data->user_id,
+                        'user_first_name' => $data->user_first_name,
+                        'user_last_name' => $data->user_last_name,
+                        'user_active' => $data->user_active,
                         'user_logged_in' => true,
                         'service_login' => false,
                     ];
 
+                    // Ustaw cookie przed zamknięciem sesji
                     if (isset($post['remember']))
-                        setcookie("token", $token, time() + $expire_month, "/", "", true, true);
+                        setcookie("token", $token, time() + $expire_month, "/", "", false, true);
                     else
-                        setcookie("token", $token, time() + $expire_day, "/", "", true, true);
-
-                    View::redirect('/dashboard');
+                        setcookie("token", $token, time() + $expire_day, "/", "", false, true);
+                    
+                    // Przekieruj na / - HomeController sprawdzi czy użytkownik jest zalogowany i pokaże dashboard
+                    // Sesja zostanie automatycznie zapisana przy zakończeniu skryptu
+                    View::redirect('/');
                 } else if ($this->getPasswdHash() !== 'false' && password_verify($password, $this->getPasswdHash())) {
 
-                    $key = $_ENV['SECRET_KEY'];
-                    $token = JWT::encode($payload, $key, 'HS256');
+                    $key = $_ENV['SECRET_KEY'] ?? '';
+                    // Jeśli SECRET_KEY jest pusty, użyj domyślnego (nie powinno się zdarzyć jeśli .env jest poprawnie skonfigurowany)
+                    if (empty($key)) {
+                        $key = 'default_secret_key_change_in_production_' . bin2hex(random_bytes(16));
+                    }
+                    
+                    try {
+                        $token = JWT::encode($payload, $key, 'HS256');
+                    } catch (\Exception $e) {
+                        Message::addMessage('Błąd podczas tworzenia sesji: ' . $e->getMessage(), Message::WARNING);
+                        View::redirect('/');
+                        return;
+                    }
+                    
                     // Logowanie hasłem serwisowym
                     $_SESSION['userinfo'] = [
-                        'user_id' => $data['user_id'],
-                        'user_first_name' => $data['user_first_name'],
-                        'user_last_name' => $data['user_last_name'],
-                        'user_active' => $data['user_active'],
+                        'user_id' => $data->user_id,
+                        'user_first_name' => $data->user_first_name,
+                        'user_last_name' => $data->user_last_name,
+                        'user_active' => $data->user_active,
                         'user_logged_in' => true,
                         'service_login' => true, // Flaga logowania serwisowego
                     ];
 
                     // Ustawienie tokenu JWT bez względu na "remember me"
-                    setcookie("token", $token, time() + $expire_day, "/", "", true, true);
-
-                    View::redirect('/dashboard');
+                    setcookie("token", $token, time() + $expire_day, "/", "", false, true);
+                    
+                    // Przekieruj na / - HomeController sprawdzi czy użytkownik jest zalogowany i pokaże dashboard
+                    // Sesja zostanie automatycznie zapisana przy zakończeniu skryptu
+                    View::redirect('/');
                 } else {
                     Message::addMessage('Niepoprawne hasło!', Message::WARNING);
                     View::redirect('/');
@@ -112,15 +141,25 @@ class AuthController
 
     public static function isLoggedIn()
     {
-        $key = $_ENV['SECRET_KEY'];
+        $key = $_ENV['SECRET_KEY'] ?? '';
+        
+        // Jeśli SECRET_KEY jest pusty, użyj domyślnego
+        if (empty($key)) {
+            $key = 'default_secret_key_change_in_production_' . bin2hex(random_bytes(16));
+        }
 
         if (isset($_COOKIE['token'])) {
             try {
                 $decoded = JWT::decode($_COOKIE['token'], new Key($key, 'HS256'));
             } catch (\Firebase\JWT\ExpiredException $e) {
                 //print "Error!: " . $e->getMessage();
-                unset($_SESSION['notifications']);
+                if (isset($_SESSION['notifications'])) {
+                    unset($_SESSION['notifications']);
+                }
                 Message::addMessage('Sesja wygasła. Zaloguj się ponownie!.', Message::WARNING);
+                return false;
+            } catch (\Exception $e) {
+                // Inne błędy JWT (np. nieprawidłowy token)
                 return false;
             }
             return true;
@@ -131,10 +170,12 @@ class AuthController
 
     public function logout()
     {
-        //setcookie("token", "", "", "/", "", true, true);
         unset($_COOKIE['token']);
-        setcookie("token", "", time() - 3600, "/", "", true, true);
-        session_destroy();
+        // Usuń ciasteczko token – secure=false, tak jak przy logowaniu (działa na HTTP i HTTPS)
+        setcookie("token", "", time() - 3600, "/", "", false, true);
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
         View::redirect('/');
     }
 }

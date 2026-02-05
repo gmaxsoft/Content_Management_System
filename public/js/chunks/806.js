@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhtdocs=self.webpackChunkhtdocs||[]).push([[806],{8806:(c,o,n)=>{n.r(o),n.d(o,{initModule:()=>i});var t=n(73);function i(){t(".backtolist").on("click",function(){window.location="/dashboard/"})}}}]);

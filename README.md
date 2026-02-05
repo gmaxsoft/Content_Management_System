@@ -1,8 +1,8 @@
-# Maxsoft MVC CMS v1.0.0
+# Maxsoft MVC CMS v1.1.0
 
 A modern, lightweight Content Management System (CMS) built with PHP and JavaScript, designed for flexibility and ease of use. This CMS follows SOLID principles and leverages an MVC architecture, utilizing PHP libraries like Laravel's Eloquent ORM, Twig templating, and a simple router, combined with a robust front-end setup using Webpack, Bootstrap, and jQuery.
 
-**Current Version:** 1.0.0 (SOLID Refactoring Release)
+**Current Version:** 1.1.0 (SOLID Refactoring Release)
 
 ## Architecture & SOLID Principles
 
@@ -174,28 +174,27 @@ Follow these steps to set up the CMS locally:
    ```
 
 4. **Set Up Environment**:
-   Copy the `.env.example` file (if available) to `.env` and configure your environment variables:
+   Copy the `.env.sample` file to `.env` and configure your environment variables:
    ```bash
-   cp .env.example .env
+   cp .env.sample .env
    ```
    Update the `.env` file with your database credentials and other settings. Example configuration:
    ```env
    DEBUG=true
-   DEFAULT_BLOCK_LANG=1
    DB_DRIVER=mysql
    DB_HOST=localhost
-   DB_NAME=YOUR OWN DATABASE NAME
+   DB_NAME=YOUR_OWN_DATABASE_NAME
    DB_USER=root
    DB_PASS=
    FRONTEND_URL=http://localhost:3000
    SECRET_KEY=your-secure-secret-key
-   DEFAULT_BLOCK_LANG = 1
-   SLIDERFILESPATH = 'upload/sliderImg/'
+   DEFAULT_BLOCK_LANG=1
+   SLIDERFILESPATH=upload/sliderImg/
    ```
+   **Important:** Set a strong `SECRET_KEY` (e.g. 64-character hex) for JWT authentication.
 
 5. **Set Up the Database**:
-   Create a MySQL database named `YOUR OWN DATABASE NAME` (or your preferred name, matching the `DB_NAME` in `.env`). To start the database installation process, enter `http://localhost:3000/install.php`. Follow the instructions.
-   ```
+   Create a MySQL database (name matching `DB_NAME` in `.env`). Run the installer by opening in a browser: `http://<twoja-domena>/install.php` (np. `http://localhost:8000/install.php` lub adres Twojego hosta).
 
 6. **Build Front-End Assets**:
    Compile and bundle the front-end assets using Webpack:
@@ -214,14 +213,14 @@ Follow these steps to set up the CMS locally:
    ```
 
 8. **Access the CMS**:
-   Open your browser and navigate to `http://localhost:3000` for the front-end or `http://localhost:8000` for the PHP server, depending on your setup.
+   Open your browser and go to the address where the PHP application is served (e.g. `http://localhost:8000` when using `php -S localhost:8000 -t public`, or your local domain such as `http://content_management_system.test`). Use `http://localhost:3000` only when running `npm run dev` for front-end hot reload.
 
 ## Usage
 
-- **Admin Panel**: Access the CMS admin panel (if implemented) via the configured `FRONTEND_URL`.
-- **Customizing Templates**: Modify Twig templates in the `app/views` directory (assumed based on standard MVC structure).
-- **Adding Routes**: Define custom routes in the `app` directory using `pecee/simple-router`.
-- **Asset Management**: Update SCSS files in `public/scss` or JavaScript files in `public/js` and rebuild assets with `npm run build`.
+- **Admin Panel**: Log in via the login page; after authentication you are redirected to the dashboard (admin panel).
+- **Customizing Templates**: Modify Twig templates in the `app/Views` directory.
+- **Adding Routes**: Define routes in `config/routes.php` using `pecee/simple-router`.
+- **Asset Management**: Update SCSS files in `public/scss` or JavaScript in `public/js`, then run `npm run build`. Compiled assets are output to `public/css` and `public/js`.
 
 ## Project Structure
 
@@ -229,22 +228,29 @@ Follow these steps to set up the CMS locally:
 cms/
 ├── app/                    # Application logic
 │   ├── Controllers/        # HTTP request handlers (uses services)
-│   ├── Models/            # Eloquent ORM models
-│   ├── Services/          # Business logic services
+│   ├── Handlers/           # Exception handlers
+│   ├── Middlewares/        # HTTP middlewares (auth, CSRF, API)
+│   ├── Models/             # Eloquent ORM models
+│   ├── Services/           # Business logic services
 │   │   ├── Interfaces/    # Service contracts (SOLID interfaces)
-│   │   ├── *.php          # Service implementations
-│   └── Views/             # Twig templates
+│   │   ├── Twig/          # Custom Twig extensions
+│   │   └── *.php          # Service implementations
+│   └── Views/              # Twig templates
+├── config/                 # Configuration (routes, etc.)
 ├── core/                   # Core CMS functionality (refactored with SOLID)
-├── public/                 # Publicly accessible files
-│   ├── js/                 # JavaScript source files
+├── public/                 # Web root and compiled assets
+│   ├── css/                # Compiled CSS (output from Webpack)
+│   ├── js/                 # Compiled JS and source files
 │   ├── scss/               # SCSS source files
-├── dist/                   # Compiled front-end assets
+│   └── index.php           # Entry point
+├── tests/                  # PHPUnit tests
+├── .github/workflows/      # CI (GitHub Actions)
 ├── vendor/                 # Composer dependencies
 ├── node_modules/           # npm dependencies
-├── .env                    # Environment configuration
+├── .env                    # Environment configuration (create from .env.sample)
 ├── composer.json           # PHP dependencies
 ├── package.json            # JavaScript dependencies
-├── webpack.config.js       # Webpack configuration
+├── webpack.config.js       # Webpack configuration (builds into public/)
 └── README.md               # Project documentation
 ```
 
@@ -276,18 +282,20 @@ Controllers receive services through constructor injection, enabling:
 
 ## Testing
 
-This project includes comprehensive unit tests powered by PHPUnit 11 to ensure SOLID principles compliance and code quality.
+This project includes unit tests powered by PHPUnit 10 to ensure SOLID compliance and code quality. Tests can use the database (configured in `tests/bootstrap.php`).
 
 ### Test Structure
 ```
 tests/
-├── bootstrap.php              # Test environment setup
+├── bootstrap.php              # Test environment setup (DB init, session)
 ├── Unit/
 │   ├── Services/             # Service layer tests
 │   │   ├── SliderServiceTest.php
+│   │   ├── StaticBlockServiceTest.php
 │   │   ├── TextUtilitiesTest.php
 │   │   └── FileUploadServiceTest.php
 │   └── Controllers/          # Controller tests with mocks
+│       ├── AuthControllerTest.php
 │       └── SliderControllerTest.php
 ```
 
@@ -328,11 +336,11 @@ tests/
   # Test single file
   ./vendor/bin/phpunit tests/Unit/Services/SliderServiceTest.php
   ```
-- **Continuous Integration**: Automated testing via GitHub Actions:
-  - Tests run automatically on push/PR to `master` and `development`
-  - Code coverage reports uploaded to Codecov
-  - Security scans performed weekly
-  - Code quality checks with PHPStan and PHPCS
+- **Continuous Integration**: GitHub Actions (`.github/workflows/ci.yml`):
+  - **PHPUnit**: Runs on push/PR to `master`, `main`, `development` with MySQL 8.0 service
+  - **PHPStan**: Static analysis
+  - **PHP CodeSniffer**: PSR-12 check for `app/` and `core/`
+  - **Frontend build**: `npm run build` to verify assets compile
 - **Front-End Development**: Run `npm run dev` for live reloading during development.
 - **Production Build**: Generate optimized assets for production:
   ```bash

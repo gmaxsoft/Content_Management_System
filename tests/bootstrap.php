@@ -10,7 +10,11 @@ $dotenv->load();
 $_ENV['APP_ENV'] = 'testing';
 $_ENV['DEBUG'] = 'false';
 
-// Mock database connection for tests (optional)
-if (!defined('DB_CONNECTION_MOCK')) {
-    define('DB_CONNECTION_MOCK', true);
+// Initialize database connection for tests
+use Core\Database;
+Database::init();
+
+// Start session for tests
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }

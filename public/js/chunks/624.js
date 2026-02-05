@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhtdocs=self.webpackChunkhtdocs||[]).push([[624],{1624:(s,o,t)=>{t.r(o),t.d(o,{initModule:()=>i});var c=t(8773),e=t(73);function i(){(0,c.ZO)(e("#form_block_edit"),"/api/users/update/","","",!1),(0,c.ZO)(e("#form_passwd"),"/api/users/store_password/","","",!1),e(".backtolist").on("click",function(){window.location="/users"})}}}]);

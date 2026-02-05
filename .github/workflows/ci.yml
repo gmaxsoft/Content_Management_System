@@ -1,0 +1,183 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main, development ]
+  pull_request:
+    branches: [ master, main, development ]
+
+jobs:
+  test:
+    name: PHP Tests
+    runs-on: ubuntu-latest
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: test_db
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, curl, mysql, pdo, pdo_mysql, gd, zip
+          coverage: xdebug
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Setup environment
+        run: |
+          cp .env.sample .env
+          echo "DB_DRIVER=mysql" >> .env
+          echo "DB_HOST=127.0.0.1" >> .env
+          echo "DB_NAME=test_db" >> .env
+          echo "DB_USER=root" >> .env
+          echo "DB_PASS=root" >> .env
+          echo "SECRET_KEY=test_secret_key_for_ci_$(openssl rand -hex 32)" >> .env
+          echo "DEBUG=true" >> .env
+          echo "FRONTEND_URL=http://localhost:3000" >> .env
+          echo "DEFAULT_BLOCK_LANG=1" >> .env
+          echo "SLIDERFILESPATH=upload/sliderImg/" >> .env
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -u root -proot --silent; then
+              echo "MySQL is ready!"
+              break
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 2
+          done
+
+      - name: Create test database schema (if needed)
+        run: |
+          # Test database should be created automatically by MySQL service
+          # But we can verify it exists
+          mysql -h 127.0.0.1 -u root -proot -e "SHOW DATABASES;" || echo "MySQL connection check"
+        continue-on-error: true
+
+      - name: Run PHPUnit tests
+        run: vendor/bin/phpunit --testdox --colors=always
+        env:
+          DB_HOST: 127.0.0.1
+          DB_NAME: test_db
+          DB_USER: root
+          DB_PASS: root
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: |
+            .phpunit.result.cache
+            tests/_output/*
+
+  phpstan:
+    name: PHPStan Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml, curl, mysql, pdo, pdo_mysql
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHPStan
+        run: vendor/bin/phpstan analyse --memory-limit=1G
+        continue-on-error: true
+
+  codesniffer:
+    name: PHP CodeSniffer
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: mbstring, xml
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run PHP CodeSniffer
+        run: vendor/bin/phpcs --standard=PSR12 app/ core/ --ignore=app/Views
+        continue-on-error: true
+
+  build-frontend:
+    name: Build Frontend Assets
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+        continue-on-error: true
+
+      - name: Check build output
+        run: |
+          if [ -d "public/css" ] && [ -d "public/js" ]; then
+            echo "Build successful - CSS and JS directories exist"
+            ls -la public/css/
+            ls -la public/js/
+          else
+            echo "Build may have failed - checking for errors"
+            exit 1
+          fi

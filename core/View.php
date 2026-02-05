@@ -40,7 +40,9 @@ class View
 			self::$templateRenderer->redirect($url);
 		} else {
 			// Fallback dla kompatybilności wstecznej
-			header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+			// Użyj względnego URL lub sprawdź protokół
+			$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+			header('Location: ' . $protocol . '://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
 			exit();
 		}
 	}
@@ -66,7 +68,9 @@ class View
 			$loader = new \Twig\Loader\FilesystemLoader(dirname(__DIR__) . '/app/Views');
 			$twig = new \Twig\Environment($loader, ['auto_reload' => true]);
 
-			// Używamy natywnego Twig spaceless tag dla kompresji HTML
+			// Dodaj rozszerzenie spaceless dla kompresji HTML
+			$twig->addExtension(new \App\Services\Twig\SpacelessExtension());
+			
 			$twig->addGlobal('userinfo', $_SESSION['userinfo'] ?? null);
 			$twig->addGlobal('frontend_url', $_ENV['FRONTEND_URL'] ?? null);
 			$twig->addGlobal('csrf_token', $csrf_token);
@@ -82,8 +86,8 @@ class View
 			}
 
 			$twig->addGlobal('menu', $menu);
-
-			echo $twig->render($template, $args);
 		}
+		
+		echo $twig->render($template, $args);
 	}
 }

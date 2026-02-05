@@ -79,7 +79,7 @@ class SliderFileService implements SliderFileServiceInterface
 
     public function deleteFile(int $fileId): array
     {
-        if (empty($fileId) || !is_numeric($fileId)) {
+        if (empty($fileId)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator pliku.'];
         }
 

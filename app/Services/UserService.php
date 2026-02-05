@@ -55,7 +55,7 @@ class UserService implements UserServiceInterface
 
     public function updateUser(int $id, array $data): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator użytkownika.'];
         }
 
@@ -90,7 +90,7 @@ class UserService implements UserServiceInterface
 
     public function deleteUser(int $id): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator użytkownika.'];
         }
 
@@ -109,7 +109,7 @@ class UserService implements UserServiceInterface
 
     public function updateUserInline(int $id, string $field, $value): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator użytkownika.'];
         }
 
@@ -127,7 +127,7 @@ class UserService implements UserServiceInterface
 
     public function updateUserPassword(int $id, string $password, string $confirmPassword): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator użytkownika.'];
         }
 

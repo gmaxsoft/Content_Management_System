@@ -35,11 +35,11 @@ class DashboardController extends DefaultController
         $id = rand(1, 8);
         $results = Sentence::find($id);
 
-        $results->sentence;
-        $results->name;
+        if ($results) {
+            $html = $results->sentence . ' <strong>' . $results->name . '</strong>';
+            return $html;
+        }
 
-        $html = $results->sentence . ' <strong>' . $results->name . '</strong>';
-
-        return $html;
+        return '';
     }
 }

@@ -18,11 +18,11 @@ export default {
         app: './public/js/app.js',
     },
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, 'public'),
         filename: 'js/[name].js',
         chunkFilename: 'js/chunks/[name].js', // Bez hash, aby nazwy były przewidywalne
         assetModuleFilename: '[ext]/[name][ext]',
-        clean: true,
+        clean: false, // nie czyść public – serwowane z public przy content_management_system.test
         //publicPath: '/', // Ensure the public path is set for dynamic imports
     },
     resolve: {
@@ -156,13 +156,10 @@ export default {
         ],
     },
     plugins: [
-        new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: 'public', to: '', // Kopiuj wszystko z folderu public do dist
-                },
-            ],
-        }),
+        // Wyłączone przy output path 'public' – unikamy kopiowania public do samego siebie
+        // new CopyWebpackPlugin({
+        //     patterns: [{ from: 'public', to: '' }],
+        // }),
         new MiniCssExtractPlugin({
             filename: ({ chunk }) => {
                 // Precyzyjne mapowanie nazw plików CSS
@@ -185,7 +182,7 @@ export default {
         proxy: {
             '/': 'http://localhost',
         },
-        static: path.resolve(__dirname, 'dist'),
+        static: path.resolve(__dirname, 'public'),
         port: 3000,
     },
     optimization: {

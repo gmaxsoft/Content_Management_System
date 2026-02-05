@@ -47,7 +47,7 @@ class SliderService implements SliderServiceInterface
 
     public function updateSlider(int $id, array $data): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator slidera.'];
         }
 
@@ -68,7 +68,7 @@ class SliderService implements SliderServiceInterface
 
     public function deleteSlider(int $id): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator slidera.'];
         }
 
@@ -87,7 +87,7 @@ class SliderService implements SliderServiceInterface
 
     public function updateSliderInline(int $id, string $field, $value): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator slidera.'];
         }
 

@@ -8,6 +8,7 @@ use Pecee\SimpleRouter\SimpleRouter;
 use App\Controllers\AuthController;
 use App\Controllers\NavigationCmsController;
 use App\Services\Interfaces\TemplateRendererInterface;
+use App\Services\Twig\SpacelessExtension;
 
 class TemplateRenderer implements TemplateRendererInterface
 {
@@ -24,7 +25,9 @@ class TemplateRenderer implements TemplateRendererInterface
 
     public function redirect(string $url): void
     {
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+        // Użyj względnego URL lub sprawdź protokół
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        header('Location: ' . $protocol . '://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
         exit();
     }
 
@@ -34,8 +37,8 @@ class TemplateRenderer implements TemplateRendererInterface
         $loader = new FilesystemLoader(dirname(__DIR__, 2) . '/app/Views');
         self::$twig = new Environment($loader, ['auto_reload' => true]);
 
-        // Kompresja HTML
-        self::$twig->getExtensions();
+        // Dodaj rozszerzenie spaceless dla kompresji HTML
+        self::$twig->addExtension(new SpacelessExtension());
         self::$twig->addGlobal('userinfo', $_SESSION['userinfo'] ?? null);
         self::$twig->addGlobal('frontend_url', $_ENV['FRONTEND_URL'] ?? null);
         self::$twig->addGlobal('csrf_token', $csrf_token);

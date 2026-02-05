@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkhtdocs=self.webpackChunkhtdocs||[]).push([[59],{59:(o,c,t)=>{t.r(c),t.d(c,{initModule:()=>a});var i=t(8773),n=t(73);function a(){(0,i.ZO)(n("#form_block"),"/api/googleanalytics/update/","","",!1),n(".backtolist").on("click",function(){window.location="/googleanalytics/"})}}}]);

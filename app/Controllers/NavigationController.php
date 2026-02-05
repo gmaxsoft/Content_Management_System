@@ -37,6 +37,7 @@ class NavigationController extends DefaultController
     public function getChildren($id)
     {
         $array = array();
+        $json = array();
 
         if (!empty($id)) {
             $children_results = NavigationItem::where('child_id', $id)->get();
@@ -59,6 +60,8 @@ class NavigationController extends DefaultController
 
             return $json;
         }
+        
+        return $json;
     }
 
     public function getJson(): void

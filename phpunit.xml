@@ -19,11 +19,4 @@
             <directory>./tests</directory>
         </exclude>
     </coverage>
-
-    <source>
-        <include>
-            <directory suffix=".php">./app</directory>
-            <directory suffix=".php">./core</directory>
-        </include>
-    </source>
 </phpunit>

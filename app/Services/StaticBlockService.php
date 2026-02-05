@@ -43,7 +43,7 @@ class StaticBlockService implements StaticBlockServiceInterface
 
     public function updateBlock(int $id, array $data): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator bloku.'];
         }
 
@@ -70,7 +70,7 @@ class StaticBlockService implements StaticBlockServiceInterface
 
     public function deleteBlock(int $id): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator bloku.'];
         }
 
@@ -89,7 +89,7 @@ class StaticBlockService implements StaticBlockServiceInterface
 
     public function updateBlockInline(int $id, string $field, $value): array
     {
-        if (empty($id) || !is_numeric($id)) {
+        if (empty($id)) {
             return ['success' => false, 'error' => 'Brak lub nieprawidłowy identyfikator bloku.'];
         }
 

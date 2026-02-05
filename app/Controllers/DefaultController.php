@@ -69,7 +69,7 @@ class DefaultController
 	// Backward compatibility methods
 	public static function getInstance()
 	{
-		return new static();
+		return new self();
 	}
 
 	// Metody delegowane do serwisów dla kompatybilności wstecznej
