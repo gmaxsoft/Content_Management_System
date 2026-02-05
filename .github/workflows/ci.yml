@@ -28,7 +28,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml, curl, mysql, pdo, pdo_mysql, gd, zip
           coverage: xdebug
 
@@ -85,12 +85,12 @@ jobs:
 
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-results
           path: |
             .phpunit.result.cache
-            tests/_output/*
+            tests/_output/
 
   phpstan:
     name: PHPStan Analysis
@@ -103,7 +103,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml, curl, mysql, pdo, pdo_mysql
 
       - name: Cache Composer dependencies
@@ -132,7 +132,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.1'
+          php-version: '8.2'
           extensions: mbstring, xml
 
       - name: Cache Composer dependencies
